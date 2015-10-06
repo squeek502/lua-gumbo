@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>lua-gumbo</title>
+<style>
+body {
+    margin: 0 auto;
+    padding: 30px;
+    line-height: 1.6;
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 15px;
+    background-color: white;
+    color: #333;
+}
+
+body > *:first-child {
+    margin-top: 0 !important;
+}
+
+body > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+a {
+    color: #4183C4;
+    text-decoration: none;
+    transition: all 250ms ease-out;
+}
+
+a:hover {
+    color: darkblue;
+}
+
+a.absent {
+    color: #cc0000;
+}
+
+a.anchor {
+    display: block;
+    padding-left: 30px;
+    margin-left: -30px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    cursor: text;
+    position: relative;
+}
+
+h2:first-child,
+h1:first-child,
+h1:first-child + h2,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+
+h1 tt, h1 code {
+    font-size: inherit;
+}
+
+h2 tt, h2 code {
+    font-size: inherit;
+}
+
+h3 tt, h3 code {
+    font-size: inherit;
+}
+
+h4 tt, h4 code {
+    font-size: inherit;
+}
+
+h5 tt, h5 code {
+    font-size: inherit;
+}
+
+h6 tt, h6 code {
+    font-size: inherit;
+}
+
+h1 {
+    font-size: 28px;
+    color: black;
+}
+
+h2 {
+    font-size: 24px;
+    border-bottom: 1px solid #cccccc;
+    color: black;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+h4 {
+    font-size: 16px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+h6 {
+    color: #777777;
+    font-size: 14px;
+}
+
+p, blockquote, ul, ol, dl, table, pre {
+    margin: 15px 0;
+}
+
+li {
+    margin: 2px 0;
+}
+
+hr {
+    margin: 25px 0 10px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+body > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+body > h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+body > h3:first-child,
+body > h4:first-child,
+body > h5:first-child,
+body > h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+a:first-child h1,
+a:first-child h2,
+a:first-child h3,
+a:first-child h4,
+a:first-child h5,
+a:first-child h6 {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+    margin-top: 0;
+}
+
+li p.first {
+    display: inline-block;
+}
+
+ul, ol {
+    padding-left: 30px;
+}
+
+ul :first-child, ol :first-child {
+    margin-top: 0;
+}
+
+ul :last-child, ol :last-child {
+    margin-bottom: 0;
+}
+
+dl {
+    padding: 0;
+}
+
+dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+    padding: 0;
+}
+
+dl dt > :first-child {
+    margin-top: 0;
+}
+
+dl dt > :last-child {
+    margin-bottom: 0;
+}
+
+dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+}
+
+dl dd > :first-child {
+    margin-top: 0;
+}
+
+dl dd > :last-child {
+    margin-bottom: 0;
+}
+
+blockquote {
+    border-left: 4px solid #dddddd;
+    padding: 0 15px;
+    color: #777777;
+}
+
+blockquote > :first-child {
+    margin-top: 0;
+}
+
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+table {
+    font-size: 14px;
+    border-collapse: collapse;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+
+table tr th, table tr td {
+    border: 1px solid #ccc;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px !important;
+}
+
+table thead th {
+    text-align: center;
+    font-size: 15px;
+}
+
+img {
+    max-width: 100%;
+}
+
+span.frame {
+    display: block;
+    overflow: hidden;
+}
+
+span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto;
+}
+
+span.frame span img {
+    display: block;
+    float: left;
+}
+
+span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0;
+}
+
+span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+
+span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center;
+}
+
+span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+
+span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+
+span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right;
+}
+
+span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+
+span.float-left {
+    display: block;
+    margin-right: 13px;
+    overflow: hidden;
+    float: left;
+}
+
+span.float-left span {
+    margin: 13px 0 0;
+}
+
+span.float-right {
+    display: block;
+    margin-left: 13px;
+    overflow: hidden;
+    float: right;
+}
+
+span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right;
+}
+
+code, tt {
+    margin: 0 2px;
+    padding: 0 5px;
+    white-space: nowrap;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+pre code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent;
+}
+
+.highlight pre {
+    background-color: #f8f8f8;
+    border: 1px solid #cccccc;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+
+pre {
+    background-color: #f8f8f8;
+    border: 1px solid #cccccc;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+
+pre code, pre tt {
+    background-color: transparent;
+    border: none;
+}
+
+code > span.kw {font-weight: bold}
+code > span.st {color: goldenrod}
+code > span.co {color: gray}
+code > span.dv {color: blue}
+code > span.bn {color: blue}
+code > span.fl {color: purple}
+code > span.al {color: green; font-weight: bold}
+code > span.er {color: red; font-weight: bold}
+
+#toc {
+    margin-bottom: 25px;
+    padding-bottom: 30px;
+    border-bottom: 2px dashed #ccc;
+}
+
+#toc ul {
+    margin: 0 0 0 1.2em;
+    padding: 0.1em;
+}
+
+#toc > ul:first-of-type > li:first-child > a {
+    font-size: larger;
+}
+
+@media only screen and (min-width: 920px) {
+    body {
+        max-width: calc(50em + 280px);
+    }
+
+    #toc {
+        float: left;
+        margin-right: 40px;
+        width: 220px;
+        border-bottom: none;
+        font-size: 14px;
+    }
+
+    main {
+        float: left;
+        width: calc(100% - 280px);
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+<nav id="toc">
+<ul>
+<li><a href="#synopsis">Synopsis</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#using-luarocks">Using LuaRocks</a></li>
+<li><a href="#using-gnu-make">Using GNU Make</a></li>
+<li><a href="#persistent-build-configuration">Persistent Build Configuration</a></li>
+</ul></li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#parse">parse</a></li>
+<li><a href="#parsefile">parseFile</a></li>
+</ul></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#dom-api">DOM API</a><ul>
+<li><a href="#document"><code>Document</code></a></li>
+<li><a href="#element"><code>Element</code></a></li>
+<li><a href="#text"><code>Text</code></a></li>
+<li><a href="#comment"><code>Comment</code></a></li>
+<li><a href="#documenttype"><code>DocumentType</code></a></li>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#parentnode"><code>ParentNode</code></a></li>
+<li><a href="#childnode"><code>ChildNode</code></a></li>
+<li><a href="#attr"><code>Attr</code></a></li>
+</ul></li>
+<li><a href="#not-implemented">Not Implemented</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+</nav>
+<main>
+<h1>lua-gumbo</h1>
+<h2 id="synopsis">Synopsis</h2>
+<p><a href="http://www.lua.org/">Lua</a> <a href="http://www.lua.org/manual/5.2/manual.html#4">C API</a> and <a href="http://luajit.org/">LuaJIT</a> <a href="http://luajit.org/ext_ffi.html">FFI</a> bindings for the <a href="https://github.com/google/gumbo-parser">Gumbo</a> <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/introduction.html#is-this-html5?">HTML5</a> parsing library, including a small set of core <a href="https://dom.spec.whatwg.org/">DOM</a> APIs implemented in pure Lua.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>C99 compiler</li>
+<li><a href="https://www.gnu.org/software/make/">GNU Make</a> <code>&gt;= 3.81</code></li>
+<li><a href="http://www.lua.org/">Lua</a> <code>&gt;= 5.1</code> <strong>or</strong> <a href="http://luajit.org/">LuaJIT</a> <code>&gt;= 2.0</code></li>
+<li><a href="https://github.com/google/gumbo-parser">Gumbo</a> <code>&gt;= 0.10.0</code> (For Gumbo 0.9.x support use the <a href="https://github.com/craigbarnes/lua-gumbo/releases/tag/0.3">lua-gumbo 0.3 release</a>)</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<h3 id="using-luarocks">Using LuaRocks</h3>
+<p>To install the latest lua-gumbo release via <a href="http://luarocks.org/">LuaRocks</a>, first ensure the requirements listed above are installed, then use the command:</p>
+<pre><code>luarocks install gumbo</code></pre>
+<h3 id="using-gnu-make">Using GNU Make</h3>
+<p>By default, the Makefile will consult <a href="https://en.wikipedia.org/wiki/Pkg-config">pkg-config</a> for the appropriate Lua variables. Usually the following commands will be sufficient:</p>
+<pre><code>make
+make check
+[sudo] make install</code></pre>
+<p>The following pkg-config names are searched in order and the first one to be found is used (yes, these all exist in the wild):</p>
+<pre><code>lua lua53 lua5.3 lua-5.3 lua52 lua5.2 lua-5.2 lua51 lua5.1 lua-5.1 luajit</code></pre>
+<p>If, for example, your system has both <code>lua.pc</code> and <code>luajit.pc</code> installed then <code>lua.pc</code> will be used by default. You can override this default behavior by specifying the <code>LUA_PC</code> variable. To build for LuaJIT, in this case, use:</p>
+<pre><code>make LUA_PC=luajit
+make check LUA_PC=luajit
+[sudo] make install LUA_PC=luajit</code></pre>
+<p>If your Lua installation doesn’t include a pkg-config file, running <code>make</code> will simply complain and exit. In this case, the 3 relevant variables will have to be specified manually, for example:</p>
+<pre><code>make LUA_CFLAGS=-I/usr/include/lua5.2
+make check
+make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code></pre>
+<h3 id="persistent-build-configuration">Persistent Build Configuration</h3>
+<p>For convenience, variable overrides can be stored persistently in a file named <code>local.mk</code>. This may be useful when building and testing against the same configuration multiple times or when you prefer not to install libgumbo globally, for example:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Compile against a local build of libgumbo</span>
+<span class="ot">GUMBO_DIR=</span>gumbo-parser-0.10.2
+<span class="ot">GUMBO_INCDIR=${GUMBO_DIR}</span>/src
+<span class="ot">GUMBO_LIBDIR=${GUMBO_DIR}</span>/.libs
+<span class="ot">GUMBO_CFLAGS=</span>-I<span class="ot">${GUMBO_INCDIR}</span>
+<span class="ot">GUMBO_LDFLAGS=</span>-L<span class="ot">${GUMBO_LIBDIR}</span>
+<span class="ot">GUMBO_LDLIBS=</span>-lgumbo
+<span class="kw">export</span> <span class="ot">LD_LIBRARY_PATH=${GUMBO_LIBDIR}</span>
+
+<span class="co"># Force pkg-config to only find and use build variables for LuaJIT</span>
+<span class="ot">LUA_PC=</span>luajit</code></pre>
+<p>The above code also happens to be valid shell syntax and can be loaded into the shell environment via <code>source local.mk</code> if required.</p>
+<h2 id="usage">Usage</h2>
+<p>The <code>gumbo</code> module provides 2 functions:</p>
+<h3 id="parse">parse</h3>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">,</span> tabStop<span class="ot">)</span></code></pre>
+<p><strong>Parameters:</strong></p>
+<ol>
+<li><code>html</code>: A <em>string</em> of UTF-8 encoded HTML.</li>
+<li><code>ctx</code>: A <em>string</em> containing the name of an element to use as context for parsing a <a href="https://html.spec.whatwg.org/multipage/syntax.html#parsing-html-fragments">HTML fragment</a> (<em>optional</em>). This is for <em>fragment</em> parsing only – leave as <code>nil</code> to parse HTML <em>documents</em>.</li>
+<li><code>ctxns</code>: The namespace to use for the <code>ctx</code> parameter; either <code>&quot;html&quot;</code>, <code>&quot;svg&quot;</code> or <code>&quot;math&quot;</code> (<em>optional</em>; defaults to <code>&quot;html&quot;</code>).</li>
+<li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
+</ol>
+<p><strong>Returns:</strong></p>
+<p>Either a <a href="#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
+<h3 id="parsefile">parseFile</h3>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">,</span> tabStop<span class="ot">)</span></code></pre>
+<p><strong>Parameters:</strong></p>
+<ol>
+<li><code>pathOrFile</code>: Either a <a href="http://www.lua.org/manual/5.2/manual.html#6.8">file handle</a> or filename <em>string</em> that refers to a file containing UTF-8 encoded HTML.</li>
+<li><code>ctx</code>: As above.</li>
+<li><code>ctxns</code>: As above.</li>
+<li><code>tabStop</code>: As above.</li>
+</ol>
+<p><strong>Returns:</strong></p>
+<p>As above.</p>
+<h2 id="example">Example</h2>
+<p>The following is a simple demonstration of how to find an element by ID and then print the contents of it’s first child text node.</p>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> gumbo <span class="ot">=</span> <span class="fu">require</span> <span class="st">&quot;gumbo&quot;</span>
+<span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span><span class="st">&#39;&lt;div id=&quot;foo&quot;&gt;Hello World&lt;/div&gt;&#39;</span><span class="ot">)</span>
+<span class="kw">local</span> foo <span class="ot">=</span> document:getElementById<span class="ot">(</span><span class="st">&quot;foo&quot;</span><span class="ot">)</span>
+<span class="kw">local</span> text <span class="ot">=</span> foo<span class="ot">.</span>childNodes<span class="ot">[</span><span class="dv">1</span><span class="ot">].</span>data
+<span class="fu">print</span><span class="ot">(</span>text<span class="ot">)</span> <span class="co">--&gt; Hello World</span></code></pre>
+<p><strong>Note:</strong> this example omits error handling for the sake of simplicity. Production code should wrap each step with <code>assert()</code> or some other, application-specific error handling.</p>
+<p>See also:</p>
+<ul>
+<li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/find_links.lua">find_links.lua</a></li>
+<li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/remove_by_id.lua">remove_by_id.lua</a></li>
+</ul>
+<h2 id="dom-api">DOM API</h2>
+<p>The <code>parse</code> and <code>parseFile</code> functions both return a <a href="#document"><code>Document</code></a> node, containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly conforms to the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification, with the following (intentional) exceptions:</p>
+<ul>
+<li><code>DOMString</code> types are encoded as UTF-8 instead of UTF-16.</li>
+<li>Lists begin at index 1 instead of 0.</li>
+<li><code>readonly</code> is not fully enforced.</li>
+</ul>
+<p>The following sections list the supported properties and methods, grouped by the DOM interface in which they are specified. No lua-gumbo specific documentation currently exists, but since it’s an implementation of a standard API, cross-checking the list with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model#DOM_interfaces">MDN DOM reference</a> should suffice for now.</p>
+<p><strong>Note:</strong> When referring to external DOM documentation, don’t forget to translate JavaScript examples to use Lua <code>object:method()</code> call syntax.</p>
+<h3 id="document"><code>Document</code></h3>
+<p>Implements <a href="#node"><code>Node</code></a> and <a href="#parentnode"><code>ParentNode</code></a>.</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.documentElement"><code>documentElement</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.head"><code>head</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.body"><code>body</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.title"><code>title</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.forms"><code>forms</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.images"><code>images</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.links"><code>links</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.scripts"><code>scripts</code></a></li>
+<li><a href="#documenttype"><code>doctype</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementById"><code>getElementById()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.getElementsByTagName"><code>getElementsByTagName()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByClassName"><code>getElementsByClassName()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createElement"><code>createElement()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createTextNode"><code>createTextNode()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createComment"><code>createComment()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.adoptNode"><code>adoptNode()</code></a></li>
+</ul>
+<h3 id="element"><code>Element</code></h3>
+<p>Implements <a href="#node"><code>Node</code></a>, <a href="#parentnode"><code>ParentNode</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
+<ul>
+<li><code>localName</code></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes"><code>attributes</code></a></li>
+<li><code>namespaceURI</code></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName"><code>tagName</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.id"><code>id</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.className"><code>className</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML"><code>innerHTML</code></a></li>
+<li>[x] getter</li>
+<li>[ ] setter</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML"><code>outerHTML</code></a></li>
+<li>[x] getter</li>
+<li>[ ] setter</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName"><code>getElementsByTagName()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName"><code>getElementsByClassName()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes"><code>hasAttributes()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttribute"><code>hasAttribute()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute"><code>getAttribute()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute"><code>setAttribute()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttribute"><code>removeAttribute()</code></a></li>
+</ul>
+<h3 id="text"><code>Text</code></h3>
+<p>Implements <a href="#node"><code>Node</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>data</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>length</code></a></li>
+</ul>
+<h3 id="comment"><code>Comment</code></h3>
+<p>Implements <a href="#node"><code>Node</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>data</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>length</code></a></li>
+</ul>
+<h3 id="documenttype"><code>DocumentType</code></h3>
+<p>Implements <a href="#node"><code>Node</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
+<ul>
+<li><code>name</code></li>
+<li><code>publicId</code></li>
+<li><code>systemId</code></li>
+</ul>
+<h3 id="node"><code>Node</code></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes"><code>childNodes</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.parentNode"><code>parentNode</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement"><code>parentElement</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument"><code>ownerDocument</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType"><code>nodeType</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeName"><code>nodeName</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.firstChild"><code>firstChild</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.lastChild"><code>lastChild</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.previousSibling"><code>previousSibling</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nextSibling"><code>nextSibling</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue"><code>nodeValue</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent"><code>textContent</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.hasChildNodes"><code>hasChildNodes()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.contains"><code>contains()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild"><code>appendChild()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore"><code>insertBefore()</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild"><code>removeChild()</code></a></li>
+</ul>
+<h3 id="parentnode"><code>ParentNode</code></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.children"><code>children</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.childElementCount"><code>childElementCount</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.firstElementChild"><code>firstElementChild</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.lastElementChild"><code>lastElementChild</code></a></li>
+</ul>
+<h3 id="childnode"><code>ChildNode</code></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode.remove"><code>remove()</code></a></li>
+</ul>
+<h3 id="attr"><code>Attr</code></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Attr#Properties"><code>name</code></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Attr#Properties"><code>value</code></a></li>
+</ul>
+<h2 id="not-implemented">Not Implemented</h2>
+<p>The following methods from the <code>CharacterData</code> interface are intentionally omitted:</p>
+<ul>
+<li><code>substringData()</code></li>
+<li><code>appendData()</code></li>
+<li><code>insertData()</code></li>
+<li><code>deleteData()</code></li>
+<li><code>replaceData()</code></li>
+</ul>
+<p>The specification for these methods has numerous flaws, assumes UTF-16 encoding and 0-based offsets and is just unnecessarily complex for the trivial amount of utility provided. A better alternative is to just manipulate the <code>data</code> property directly.</p>
+<h2 id="testing">Testing</h2>
+<p><a href="https://travis-ci.org/craigbarnes/lua-gumbo"><img src="https://travis-ci.org/craigbarnes/lua-gumbo.png?branch=master" alt="Build Status" /></a></p>
+<ul>
+<li><code>make check</code>: Runs all unit tests.</li>
+<li><code>make check-html5lib</code>: Runs just the html5lib <a href="https://github.com/html5lib/html5lib-tests/tree/master/tree-construction">tree-construction tests</a>.</li>
+<li><code>make check-install</code>: Runs <code>make check</code> within a temporary, isolated installation, to ensure all modules are installed correctly.</li>
+<li><code>make coverage.txt</code>: Generates a test coverage report with <a href="https://keplerproject.github.io/luacov/">luacov</a>.</li>
+</ul>
+<h2 id="license">License</h2>
+<p>Copyright (c) 2013-2014, Craig Barnes.</p>
+<p>Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS” AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
+</main>
+</body>
+
+</html>
