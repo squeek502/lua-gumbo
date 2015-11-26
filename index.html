@@ -77,6 +77,42 @@ p, blockquote, ul, ol, dl, table, pre {
     margin: 15px 0;
 }
 
+dl {
+    padding: 0;
+}
+
+dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0;
+    margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+    padding: 0;
+}
+
+dl dt > :first-child {
+    margin-top: 0;
+}
+
+dl dt > :last-child {
+    margin-bottom: 0;
+}
+
+dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+}
+
+dl dd > :first-child {
+    margin-top: 0;
+}
+
+dl dd > :last-child {
+    margin-bottom: 0;
+}
+
 li {
     margin: 2px 0;
 }
@@ -281,20 +317,8 @@ code > span.er {color: red; font-weight: bold}
 <li><a href="#parsefile">parseFile</a></li>
 </ul></li>
 <li><a href="#example">Example</a></li>
-<li><a href="#dom-api">DOM API</a><ul>
-<li><a href="#document"><code>Document</code></a></li>
-<li><a href="#element"><code>Element</code></a></li>
-<li><a href="#text"><code>Text</code></a></li>
-<li><a href="#comment"><code>Comment</code></a></li>
-<li><a href="#documenttype"><code>DocumentType</code></a></li>
-<li><a href="#node"><code>Node</code></a></li>
-<li><a href="#parentnode"><code>ParentNode</code></a></li>
-<li><a href="#childnode"><code>ChildNode</code></a></li>
-<li><a href="#attr"><code>Attr</code></a></li>
-</ul></li>
-<li><a href="#not-implemented">Not Implemented</a></li>
+<li><a href="#dom-api">DOM API</a></li>
 <li><a href="#testing">Testing</a></li>
-<li><a href="#license">License</a></li>
 </ul>
 </nav>
 <main>
@@ -353,7 +377,7 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
 </ol>
 <p><strong>Returns:</strong></p>
-<p>Either a <a href="#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
+<p>Either a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
 <h3 id="parsefile">parseFile</h3>
 <pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">,</span> tabStop<span class="ot">)</span></code></pre>
 <p><strong>Parameters:</strong></p>
@@ -366,7 +390,7 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <p><strong>Returns:</strong></p>
 <p>As above.</p>
 <h2 id="example">Example</h2>
-<p>The following is a simple demonstration of how to find an element by ID and then print the contents of it’s first child text node.</p>
+<p>The following is a simple demonstration of how to find an element by ID and print the contents of it’s first child text node.</p>
 <pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> gumbo <span class="ot">=</span> <span class="fu">require</span> <span class="st">&quot;gumbo&quot;</span>
 <span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span><span class="st">&#39;&lt;div id=&quot;foo&quot;&gt;Hello World&lt;/div&gt;&#39;</span><span class="ot">)</span>
 <span class="kw">local</span> foo <span class="ot">=</span> document:getElementById<span class="ot">(</span><span class="st">&quot;foo&quot;</span><span class="ot">)</span>
@@ -379,122 +403,7 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/remove_by_id.lua">remove_by_id.lua</a></li>
 </ul>
 <h2 id="dom-api">DOM API</h2>
-<p>The <code>parse</code> and <code>parseFile</code> functions both return a <a href="#document"><code>Document</code></a> node, containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly conforms to the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification, with the following (intentional) exceptions:</p>
-<ul>
-<li><code>DOMString</code> types are encoded as UTF-8 instead of UTF-16.</li>
-<li>Lists begin at index 1 instead of 0.</li>
-<li><code>readonly</code> is not fully enforced.</li>
-</ul>
-<p>The following sections list the supported properties and methods, grouped by the DOM interface in which they are specified. No lua-gumbo specific documentation currently exists, but since it’s an implementation of a standard API, cross-checking the list with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model#DOM_interfaces">MDN DOM reference</a> should suffice for now.</p>
-<p><strong>Note:</strong> When referring to external DOM documentation, don’t forget to translate JavaScript examples to use Lua <code>object:method()</code> call syntax.</p>
-<h3 id="document"><code>Document</code></h3>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#parentnode"><code>ParentNode</code></a>.</p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.documentElement"><code>documentElement</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.head"><code>head</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.body"><code>body</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.title"><code>title</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.forms"><code>forms</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.images"><code>images</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.links"><code>links</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.scripts"><code>scripts</code></a></li>
-<li><a href="#documenttype"><code>doctype</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementById"><code>getElementById()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.getElementsByTagName"><code>getElementsByTagName()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document.getElementsByClassName"><code>getElementsByClassName()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createElement"><code>createElement()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createTextNode"><code>createTextNode()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.createComment"><code>createComment()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.adoptNode"><code>adoptNode()</code></a></li>
-</ul>
-<h3 id="element"><code>Element</code></h3>
-<p>Implements <a href="#node"><code>Node</code></a>, <a href="#parentnode"><code>ParentNode</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
-<ul>
-<li><code>localName</code></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.attributes"><code>attributes</code></a></li>
-<li><code>namespaceURI</code></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.tagName"><code>tagName</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.id"><code>id</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.className"><code>className</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.innerHTML"><code>innerHTML</code></a></li>
-<li>[x] getter</li>
-<li>[ ] setter</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.outerHTML"><code>outerHTML</code></a></li>
-<li>[x] getter</li>
-<li>[ ] setter</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName"><code>getElementsByTagName()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByClassName"><code>getElementsByClassName()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttributes"><code>hasAttributes()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.hasAttribute"><code>hasAttribute()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getAttribute"><code>getAttribute()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.setAttribute"><code>setAttribute()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.removeAttribute"><code>removeAttribute()</code></a></li>
-</ul>
-<h3 id="text"><code>Text</code></h3>
-<p>Implements <a href="#node"><code>Node</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>data</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>length</code></a></li>
-</ul>
-<h3 id="comment"><code>Comment</code></h3>
-<p>Implements <a href="#node"><code>Node</code></a>, <a href="#childnode"><code>ChildNode</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/NonDocumentTypeChildNode"><code>NonDocumentTypeChildNode</code></a>.</p>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>data</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CharacterData#Properties"><code>length</code></a></li>
-</ul>
-<h3 id="documenttype"><code>DocumentType</code></h3>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
-<ul>
-<li><code>name</code></li>
-<li><code>publicId</code></li>
-<li><code>systemId</code></li>
-</ul>
-<h3 id="node"><code>Node</code></h3>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes"><code>childNodes</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.parentNode"><code>parentNode</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement"><code>parentElement</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument"><code>ownerDocument</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType"><code>nodeType</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeName"><code>nodeName</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.firstChild"><code>firstChild</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.lastChild"><code>lastChild</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.previousSibling"><code>previousSibling</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nextSibling"><code>nextSibling</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeValue"><code>nodeValue</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.textContent"><code>textContent</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.hasChildNodes"><code>hasChildNodes()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.contains"><code>contains()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.appendChild"><code>appendChild()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.insertBefore"><code>insertBefore()</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.removeChild"><code>removeChild()</code></a></li>
-</ul>
-<h3 id="parentnode"><code>ParentNode</code></h3>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.children"><code>children</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.childElementCount"><code>childElementCount</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.firstElementChild"><code>firstElementChild</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode.lastElementChild"><code>lastElementChild</code></a></li>
-</ul>
-<h3 id="childnode"><code>ChildNode</code></h3>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode.remove"><code>remove()</code></a></li>
-</ul>
-<h3 id="attr"><code>Attr</code></h3>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Attr#Properties"><code>name</code></a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Attr#Properties"><code>value</code></a></li>
-</ul>
-<h2 id="not-implemented">Not Implemented</h2>
-<p>The following methods from the <code>CharacterData</code> interface are intentionally omitted:</p>
-<ul>
-<li><code>substringData()</code></li>
-<li><code>appendData()</code></li>
-<li><code>insertData()</code></li>
-<li><code>deleteData()</code></li>
-<li><code>replaceData()</code></li>
-</ul>
-<p>The specification for these methods has numerous flaws, assumes UTF-16 encoding and 0-based offsets and is just unnecessarily complex for the trivial amount of utility provided. A better alternative is to just manipulate the <code>data</code> property directly.</p>
+<p>The <code>parse</code> and <code>parseFile</code> functions both return a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node, containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly follows the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification and is documented at <a href="https://craigbarnes.github.io/lua-gumbo/api.html" class="uri">https://craigbarnes.github.io/lua-gumbo/api.html</a>.</p>
 <h2 id="testing">Testing</h2>
 <p><a href="https://travis-ci.org/craigbarnes/lua-gumbo"><img src="https://travis-ci.org/craigbarnes/lua-gumbo.png?branch=master" alt="Build Status" /></a></p>
 <ul>
@@ -503,10 +412,6 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <li><code>make check-install</code>: Runs <code>make check</code> within a temporary, isolated installation, to ensure all modules are installed correctly.</li>
 <li><code>make coverage.txt</code>: Generates a test coverage report with <a href="https://keplerproject.github.io/luacov/">luacov</a>.</li>
 </ul>
-<h2 id="license">License</h2>
-<p>Copyright (c) 2013-2014, Craig Barnes.</p>
-<p>Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS” AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
 </main>
 </body>
 
