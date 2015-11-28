@@ -346,7 +346,12 @@ code > span.er {color: red; font-weight: bold}
 <p>Nodes also have various properties, some of which are just simple strings or numbers and some of which are <a href="#other-objects">other objects</a>. For example, all <a href="#element"><code>Element</code></a> nodes have an <code>attributes</code> property, which is a <a href="#namednodemap"><code>NamedNodeMap</code></a> object containing <a href="#attr"><code>Attr</code></a> objects.</p>
 <h3 id="element"><code>Element</code></h3>
 <p><em>TODO:</em> brief description of the <code>Element</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a>, <a href="#parentnode"><code>ParentNode</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#parentnode"><code>ParentNode</code></a></li>
+<li><a href="#childnode"><code>ChildNode</code></a></li>
+</ul>
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>localName</code></dt>
@@ -400,7 +405,12 @@ code > span.er {color: red; font-weight: bold}
 </dl>
 <h3 id="text"><code>Text</code></h3>
 <p><em>TODO:</em> brief description of the <code>Text</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#childnode"><code>ChildNode</code></a></li>
+</ul>
+<p><strong>Properties:</strong></p>
 <dl>
 <dt><code>data</code></dt>
 <dd>A <em>string</em> representing the text contents of the node.
@@ -411,7 +421,12 @@ code > span.er {color: red; font-weight: bold}
 </dl>
 <h3 id="comment"><code>Comment</code></h3>
 <p><em>TODO:</em> brief description of the <code>Comment</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#childnode"><code>ChildNode</code></a></li>
+</ul>
+<p><strong>Properties:</strong></p>
 <dl>
 <dt><code>data</code></dt>
 <dd>A <em>string</em> representing the text contents of the comment node, <em>not</em> including the start delimiter (<code>&lt;!--</code>) or end delimiter (<code>--&gt;</code>) from the original markup.
@@ -483,7 +498,12 @@ code > span.er {color: red; font-weight: bold}
 </dl>
 <h3 id="documenttype"><code>DocumentType</code></h3>
 <p><em>TODO:</em> brief description of the <code>DocumentType</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#childnode"><code>ChildNode</code></a>.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#childnode"><code>ChildNode</code></a></li>
+</ul>
+<p><strong>Properties:</strong></p>
 <dl>
 <dt><code>name</code></dt>
 <dd>TODO
@@ -497,8 +517,13 @@ code > span.er {color: red; font-weight: bold}
 </dl>
 <h3 id="documentfragment"><code>DocumentFragment</code></h3>
 <p><em>TODO:</em> brief description of the <code>DocumentFragment</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#parentnode"><code>ParentNode</code></a>.</p>
-<p><em>TODO:</em> full list of properties and methods.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#parentnode"><code>ParentNode</code></a></li>
+</ul>
+<p><strong>Properties:</strong></p>
+<p><em>TODO</em></p>
 <h2 id="interfaces">Interfaces</h2>
 <h3 id="node"><code>Node</code></h3>
 <p>The <code>Node</code> interface is implemented by <em>all</em> DOM tree <a href="#nodes">nodes</a>.</p>
@@ -634,7 +659,8 @@ code > span.er {color: red; font-weight: bold}
 </dd>
 </dl>
 <h3 id="parentnode"><code>ParentNode</code></h3>
-<p>The <code>ParentNode</code> interface is implemented by <a href="#nodes">nodes</a> that can have children.</p>
+<p>The <code>ParentNode</code> interface is implemented by all <a href="#nodes">nodes</a> that can have children.</p>
+<p><strong>Properties:</strong></p>
 <dl>
 <dt><code>children</code></dt>
 <dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of child <a href="#element"><code>Element</code></a> nodes.
@@ -650,7 +676,8 @@ code > span.er {color: red; font-weight: bold}
 </dd>
 </dl>
 <h3 id="childnode"><code>ChildNode</code></h3>
-<p>The <code>ChildNode</code> interface is implemented by <a href="#nodes">nodes</a> that can have a parent.</p>
+<p>The <code>ChildNode</code> interface is implemented by all <a href="#nodes">nodes</a> that can have a parent.</p>
+<p><strong>Methods:</strong></p>
 <dl>
 <dt><code>remove()</code></dt>
 <dd>Removes the node from it’s parent.
@@ -658,6 +685,8 @@ code > span.er {color: red; font-weight: bold}
 </dl>
 <h2 id="other-objects">Other Objects</h2>
 <h3 id="attr"><code>Attr</code></h3>
+<p>The <code>Attr</code> type represents a DOM element’s attribute as an object.</p>
+<p><strong>Properties:</strong></p>
 <dl>
 <dt><code>name</code></dt>
 <dd>The attribute’s name.
