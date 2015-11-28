@@ -421,8 +421,12 @@ code > span.er {color: red; font-weight: bold}
 </dd>
 </dl>
 <h3 id="document"><code>Document</code></h3>
-<p><em>TODO:</em> brief description of the <code>Document</code> type.</p>
-<p>Implements <a href="#node"><code>Node</code></a> and <a href="#parentnode"><code>ParentNode</code></a>.</p>
+<p>The <code>Document</code> node represents the outermost container of a DOM tree and is the result of parsing a single HTML document. It’s direct child nodes may include a single <a href="#documenttype"><code>DocumentType</code></a> node and any number of <a href="#element"><code>Element</code></a> or <a href="#comment"><code>Comment</code></a> nodes.</p>
+<p><strong>Implements:</strong></p>
+<ul>
+<li><a href="#node"><code>Node</code></a></li>
+<li><a href="#parentnode"><code>ParentNode</code></a></li>
+</ul>
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>documentElement</code></dt>
