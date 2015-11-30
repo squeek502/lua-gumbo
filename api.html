@@ -316,16 +316,18 @@ code > span.er {color: red; font-weight: bold}
 <li><a href="#documenttype"><code>DocumentType</code></a></li>
 <li><a href="#documentfragment"><code>DocumentFragment</code></a></li>
 </ul></li>
-<li><a href="#interfaces">Interfaces</a><ul>
+<li><a href="#node-interfaces">Node Interfaces</a><ul>
 <li><a href="#node"><code>Node</code></a></li>
 <li><a href="#parentnode"><code>ParentNode</code></a></li>
 <li><a href="#childnode"><code>ChildNode</code></a></li>
 </ul></li>
-<li><a href="#other-objects">Other Objects</a><ul>
-<li><a href="#attr"><code>Attr</code></a></li>
+<li><a href="#attribute-objects">Attribute Objects</a><ul>
+<li><a href="#attributelist"><code>AttributeList</code></a></li>
+<li><a href="#attribute"><code>Attribute</code></a></li>
+</ul></li>
+<li><a href="#node-containers">Node Containers</a><ul>
 <li><a href="#nodelist"><code>NodeList</code></a></li>
-<li><a href="#htmlcollection"><code>HTMLCollection</code></a></li>
-<li><a href="#namednodemap"><code>NamedNodeMap</code></a></li>
+<li><a href="#elementlist"><code>ElementList</code></a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -341,9 +343,7 @@ code > span.er {color: red; font-weight: bold}
 <p>The following sections list the supported properties and methods, grouped by the DOM interface in which they are specified.</p>
 <p><strong>Note:</strong> When referring to external DOM documentation, don’t forget to translate JavaScript examples to use Lua <code>object:method()</code> call syntax.</p>
 <h2 id="nodes">Nodes</h2>
-<p>There are 6 types of <code>Node</code> that may appear directly in the HTML DOM tree. These are <a href="#element"><code>Element</code></a>, <a href="#text"><code>Text</code></a>, <a href="#comment"><code>Comment</code></a>, <a href="#document"><code>Document</code></a>, <a href="#documenttype"><code>DocumentType</code></a> and <a href="#documentfragment"><code>DocumentFragment</code></a>. The <a href="#node"><code>Node</code></a> type itself is just an interface, which is <em>implemented</em> by all 6 of the aforementioned types. The term “node” is also used to refer generally to any object that implements the interface.</p>
-<p>There are also various other <a href="#interfaces">interfaces</a> that are implemented by only a subset of the <code>Node</code> types. For example, <a href="#parentnode"><code>ParentNode</code></a> is implemented by any node that can have child nodes.</p>
-<p>Nodes also have various properties, some of which are just simple strings or numbers and some of which are <a href="#other-objects">other objects</a>. For example, all <a href="#element"><code>Element</code></a> nodes have an <code>attributes</code> property, which is a <a href="#namednodemap"><code>NamedNodeMap</code></a> object containing <a href="#attr"><code>Attr</code></a> objects.</p>
+<p>There are 6 types of <code>Node</code> that may appear directly in the HTML DOM tree. These are <a href="#element"><code>Element</code></a>, <a href="#text"><code>Text</code></a>, <a href="#comment"><code>Comment</code></a>, <a href="#document"><code>Document</code></a>, <a href="#documenttype"><code>DocumentType</code></a> and <a href="#documentfragment"><code>DocumentFragment</code></a>. The <a href="#node"><code>Node</code></a> type itself is just an <a href="#node-interfaces">interface</a>, which is <em>implemented</em> by all 6 of the aforementioned types.</p>
 <h3 id="element"><code>Element</code></h3>
 <p><em>TODO:</em> brief description of the <code>Element</code> type.</p>
 <p><strong>Implements:</strong></p>
@@ -358,7 +358,7 @@ code > span.er {color: red; font-weight: bold}
 <dd>The name of the element, as a case-normalized <em>string</em> (lower case for all HTML elements and most other elements; camelCase for some SVG elements).
 </dd>
 <dt><code>attributes</code></dt>
-<dd>A <a href="#namednodemap"><code>NamedNodeMap</code></a> containing an <a href="#attr"><code>Attr</code></a> object for each attribute of the element.
+<dd>An <a href="#attributelist"><code>AttributeList</code></a> containing an <a href="#attribute"><code>Attribute</code></a> object for each attribute of the element.
 </dd>
 <dt><code>namespaceURI</code></dt>
 <dd>TODO
@@ -460,16 +460,16 @@ code > span.er {color: red; font-weight: bold}
 <dd>A <em>string</em> containing the document’s title (initially, the text contents of the <code>&lt;title&gt;</code> element in the document markup).
 </dd>
 <dt><code>forms</code></dt>
-<dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of all <code>&lt;form&gt;</code> elements in the document.
+<dd>An <a href="#elementlist"><code>ElementList</code></a> of all <code>&lt;form&gt;</code> elements in the document.
 </dd>
 <dt><code>images</code></dt>
-<dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of all <code>&lt;img&gt;</code> elements in the document.
+<dd>An <a href="#elementlist"><code>ElementList</code></a> of all <code>&lt;img&gt;</code> elements in the document.
 </dd>
 <dt><code>links</code></dt>
-<dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of all <code>&lt;a&gt;</code> and <code>&lt;area&gt;</code> elements in the document that have a value for the <code>href</code> attribute.
+<dd>An <a href="#elementlist"><code>ElementList</code></a> of all <code>&lt;a&gt;</code> and <code>&lt;area&gt;</code> elements in the document that have a value for the <code>href</code> attribute.
 </dd>
 <dt><code>scripts</code></dt>
-<dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of all <code>&lt;script&gt;</code> elements in the document.
+<dd>An <a href="#elementlist"><code>ElementList</code></a> of all <code>&lt;script&gt;</code> elements in the document.
 </dd>
 <dt><code>doctype</code></dt>
 <dd>A reference to the document’s <a href="#documenttype"><code>DocumentType</code></a> node, if it has one, or <code>nil</code> if not.
@@ -527,9 +527,9 @@ code > span.er {color: red; font-weight: bold}
 </ul>
 <p><strong>Properties:</strong></p>
 <p><em>TODO</em></p>
-<h2 id="interfaces">Interfaces</h2>
+<h2 id="node-interfaces">Node Interfaces</h2>
 <h3 id="node"><code>Node</code></h3>
-<p>The <code>Node</code> interface is implemented by <em>all</em> DOM tree <a href="#nodes">nodes</a>.</p>
+<p>The <code>Node</code> interface is implemented by <em>all</em> DOM <a href="#nodes">nodes</a>.</p>
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>childNodes</code></dt>
@@ -678,7 +678,7 @@ code > span.er {color: red; font-weight: bold}
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>children</code></dt>
-<dd>A <a href="#htmlcollection"><code>HTMLCollection</code></a> of child <a href="#element"><code>Element</code></a> nodes.
+<dd>An <a href="#elementlist"><code>ElementList</code></a> of child <a href="#element"><code>Element</code></a> nodes.
 </dd>
 <dt><code>childElementCount</code></dt>
 <dd>An <em>integer</em> representing the number of child <a href="#element"><code>Element</code></a> nodes.
@@ -698,9 +698,13 @@ code > span.er {color: red; font-weight: bold}
 <dd>Removes the node from it’s parent.
 </dd>
 </dl>
-<h2 id="other-objects">Other Objects</h2>
-<h3 id="attr"><code>Attr</code></h3>
-<p>The <code>Attr</code> type represents a DOM element’s attribute as an object.</p>
+<h2 id="attribute-objects">Attribute Objects</h2>
+<h3 id="attributelist"><code>AttributeList</code></h3>
+<p>An <code>AttributeList</code> is a list containing zero or more <a href="#attribute"><code>Attribute</code></a> objects. Every <a href="#element"><code>Element</code></a> node has an associated <code>AttributeList</code>, which can be accessed via the <code>Element.attributes</code> property.</p>
+<p><strong>Properties:</strong></p>
+<p><em>TODO</em></p>
+<h3 id="attribute"><code>Attribute</code></h3>
+<p>The <code>Attribute</code> type represents a single attribute of an <a href="#element"><code>Element</code></a>.</p>
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>name</code></dt>
@@ -715,11 +719,10 @@ code > span.er {color: red; font-weight: bold}
 <p><em>This property is an extension; not a part of any specification.</em></p>
 </dd>
 </dl>
+<h2 id="node-containers">Node Containers</h2>
 <h3 id="nodelist"><code>NodeList</code></h3>
 <p><em>TODO</em></p>
-<h3 id="htmlcollection"><code>HTMLCollection</code></h3>
-<p><em>TODO</em></p>
-<h3 id="namednodemap"><code>NamedNodeMap</code></h3>
+<h3 id="elementlist"><code>ElementList</code></h3>
 <p><em>TODO</em></p>
 </main>
 </body>
