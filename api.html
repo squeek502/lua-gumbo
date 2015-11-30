@@ -418,6 +418,9 @@ code > span.er {color: red; font-weight: bold}
 <dt><code>length</code></dt>
 <dd>The length of the <code>data</code> property in bytes.
 </dd>
+<dt><code>escapedData</code></dt>
+<dd>TODO
+</dd>
 </dl>
 <h3 id="comment"><code>Comment</code></h3>
 <p><em>TODO:</em> brief description of the <code>Comment</code> type.</p>
@@ -639,6 +642,12 @@ code > span.er {color: red; font-weight: bold}
 <p>If the node is a <a href="#document"><code>Document</code></a> or <a href="#documenttype"><code>DocumentType</code></a> node, <code>textContent</code> always returns <code>nil</code>.</p>
 <p>For other node types, <code>textContent</code> returns the concatenation of the <code>textContent</code> value of every child node, excluding comments, or an empty string.</p>
 </dd>
+<dt><code>insertedByParser</code></dt>
+<dd><code>true</code> if the node was inserted into the DOM tree automatically by the parser and <code>false</code> otherwise.
+</dd>
+<dt><code>implicitEndTag</code></dt>
+<dd><code>true</code> if the node was implicitly closed by the parser (e.g. there was no explicit end tag in the markup) and <code>false</code> otherwise.
+</dd>
 </dl>
 <p><strong>Methods:</strong></p>
 <dl>
@@ -655,6 +664,12 @@ code > span.er {color: red; font-weight: bold}
 <dd>TODO
 </dd>
 <dt><code>removeChild(child)</code></dt>
+<dd>TODO
+</dd>
+<dt><code>walk()</code></dt>
+<dd>TODO
+</dd>
+<dt><code>reverseWalk()</code></dt>
 <dd>TODO
 </dd>
 </dl>

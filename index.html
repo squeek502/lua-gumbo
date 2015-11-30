@@ -353,18 +353,7 @@ make check LUA_PC=luajit
 make check LUA=/usr/bin/lua5.2
 make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code></pre>
 <h3 id="persistent-build-configuration">Persistent Build Configuration</h3>
-<p>For convenience, variable overrides can be stored persistently in a file named <code>local.mk</code>. This may be useful when building and testing against the same configuration multiple times, for example:</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Compile against a local build of libgumbo</span>
-<span class="ot">GUMBO_DIR=</span>gumbo-parser-0.10.2
-<span class="ot">GUMBO_INCDIR=${GUMBO_DIR}</span>/src
-<span class="ot">GUMBO_LIBDIR=${GUMBO_DIR}</span>/.libs
-<span class="ot">GUMBO_CFLAGS=</span>-I<span class="ot">${GUMBO_INCDIR}</span>
-<span class="ot">GUMBO_LDFLAGS=</span>-L<span class="ot">${GUMBO_LIBDIR}</span>
-<span class="ot">GUMBO_LDLIBS=</span>-lgumbo
-<span class="kw">export</span> <span class="ot">LD_LIBRARY_PATH=${GUMBO_LIBDIR}</span>
-
-<span class="co"># Force pkg-config to only find and use build variables for LuaJIT</span>
-<span class="ot">LUA_PC=</span>luajit</code></pre>
+<p>For convenience, variable overrides can be stored persistently in a file named <code>local.mk</code>. This may be useful when building and testing against the same configuration multiple times.</p>
 <h2 id="usage">Usage</h2>
 <p>The <code>gumbo</code> module provides 2 functions:</p>
 <h3 id="parse">parse</h3>
