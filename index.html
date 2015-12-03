@@ -338,6 +338,10 @@ code > span.er {color: red; font-weight: bold}
 <p>To install the latest lua-gumbo release via <a href="http://luarocks.org/">LuaRocks</a>, first ensure the requirements listed above are installed, then use the command:</p>
 <pre><code>luarocks install gumbo</code></pre>
 <h3 id="using-gnu-make">Using GNU Make</h3>
+<p>First, download and extract the latest release tarball:</p>
+<pre><code>curl -LO https://craigbarnes.github.io/lua-gumbo/dist/lua-gumbo-0.4.tar.gz
+tar -xzf lua-gumbo-0.4.tar.gz
+cd lua-gumbo-0.4</code></pre>
 <p>By default, the Makefile will consult <a href="https://en.wikipedia.org/wiki/Pkg-config">pkg-config</a> for the appropriate build variables. Usually the following commands will be sufficient:</p>
 <pre><code>make
 make check
@@ -357,27 +361,27 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <h2 id="usage">Usage</h2>
 <p>The <code>gumbo</code> module provides 2 functions:</p>
 <h3 id="parse">parse</h3>
-<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">,</span> tabStop<span class="ot">)</span></code></pre>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
 <p><strong>Parameters:</strong></p>
 <ol style="list-style-type: decimal">
 <li><code>html</code>: A <em>string</em> of UTF-8 encoded HTML.</li>
+<li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
 <li><code>ctx</code>: A <em>string</em> containing the name of an element to use as context for parsing a <a href="https://html.spec.whatwg.org/multipage/syntax.html#parsing-html-fragments">HTML fragment</a> (<em>optional</em>). This is for <em>fragment</em> parsing only – leave as <code>nil</code> to parse HTML <em>documents</em>.</li>
 <li><code>ctxns</code>: The namespace to use for the <code>ctx</code> parameter; either <code>&quot;html&quot;</code>, <code>&quot;svg&quot;</code> or <code>&quot;math&quot;</code> (<em>optional</em>; defaults to <code>&quot;html&quot;</code>).</li>
-<li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
 </ol>
 <p><strong>Returns:</strong></p>
 <p>Either a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
 <h3 id="parsefile">parseFile</h3>
-<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">,</span> tabStop<span class="ot">)</span></code></pre>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
 <p><strong>Parameters:</strong></p>
 <ol style="list-style-type: decimal">
 <li><code>pathOrFile</code>: Either a <a href="http://www.lua.org/manual/5.2/manual.html#6.8">file handle</a> or filename <em>string</em> that refers to a file containing UTF-8 encoded HTML.</li>
-<li><code>ctx</code>: As above.</li>
-<li><code>ctxns</code>: As above.</li>
-<li><code>tabStop</code>: As above.</li>
+<li><code>tabStop</code>: As <a href="#parse">above</a>.</li>
+<li><code>ctx</code>: As <a href="#parse">above</a>.</li>
+<li><code>ctxns</code>: As <a href="#parse">above</a>.</li>
 </ol>
 <p><strong>Returns:</strong></p>
-<p>As above.</p>
+<p>As <a href="#parse">above</a>.</p>
 <h2 id="example">Example</h2>
 <p>The following is a simple demonstration of how to find an element by ID and print the contents of it’s first child text node.</p>
 <pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> gumbo <span class="ot">=</span> <span class="fu">require</span> <span class="st">&quot;gumbo&quot;</span>
@@ -394,7 +398,7 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <h2 id="dom-api">DOM API</h2>
 <p>The <a href="#parse"><code>parse</code></a> and <a href="#parsefile"><code>parseFile</code></a> functions both return a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node, containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly follows the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification and is documented at <a href="https://craigbarnes.github.io/lua-gumbo/api.html" class="uri">https://craigbarnes.github.io/lua-gumbo/api.html</a>.</p>
 <h2 id="testing">Testing</h2>
-<p><a href="https://travis-ci.org/craigbarnes/lua-gumbo"><img src="https://travis-ci.org/craigbarnes/lua-gumbo.png?branch=master" alt="Build Status" /></a></p>
+<p><a href="https://travis-ci.org/craigbarnes/lua-gumbo"><img src="https://travis-ci.org/craigbarnes/lua-gumbo.png?branch=master" alt="Build Status" /></a> <a href="https://coveralls.io/github/craigbarnes/lua-gumbo?branch=master"><img src="https://coveralls.io/repos/craigbarnes/lua-gumbo/badge.svg?branch=master&amp;service=github" alt="Coverage Status" /></a></p>
 <ul>
 <li><code>make check</code>: Runs all unit tests.</li>
 <li><code>make check-html5lib</code>: Runs just the html5lib <a href="https://github.com/html5lib/html5lib-tests/tree/master/tree-construction">tree-construction tests</a>.</li>
