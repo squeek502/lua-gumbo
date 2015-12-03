@@ -382,13 +382,36 @@ code > span.er {color: red; font-weight: bold}
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>localName</code></dt>
-<dd>The name of the element, as a case-normalized <em>string</em> (lower case for all HTML elements and most other elements; camelCase for some SVG elements).
+<dd>The name of the element, as a case-normalized <em>string</em> (lower case for all HTML elements and most other elements; camelCase for some <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element#SVG_elements">SVG elements</a>).
 </dd>
 <dt><code>attributes</code></dt>
 <dd>An <a href="#attributelist"><code>AttributeList</code></a> containing an <a href="#attribute"><code>Attribute</code></a> object for each attribute of the element.
 </dd>
 <dt><code>namespaceURI</code></dt>
-<dd>TODO
+<dd><p>The canonical namespace URI of the the element.</p>
+<p>Possible values:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Namespace</th>
+<th align="left"><code>namespaceURI</code> value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">HTML</td>
+<td align="left"><code>&quot;http://www.w3.org/1999/xhtml&quot;</code></td>
+</tr>
+<tr class="even">
+<td align="left">MathML</td>
+<td align="left"><code>&quot;http://www.w3.org/1998/Math/MathML&quot;</code></td>
+</tr>
+<tr class="odd">
+<td align="left">SVG</td>
+<td align="left"><code>&quot;http://www.w3.org/2000/svg&quot;</code></td>
+</tr>
+</tbody>
+</table>
 </dd>
 <dt><code>tagName</code></dt>
 <dd>The name of the element, as an upper case <em>string</em>.
