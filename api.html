@@ -307,6 +307,10 @@ code > span.er {color: red; font-weight: bold}
 <hr style='margin-bottom: 35px'/>
 <nav id="toc">
 <ul>
+<li><a href="#parsing-api">Parsing API</a><ul>
+<li><a href="#parse">parse</a></li>
+<li><a href="#parsefile">parseFile</a></li>
+</ul></li>
 <li><a href="#dom-api">DOM API</a><ul>
 <li><a href="#nodes">Nodes</a><ul>
 <li><a href="#element"><code>Element</code></a></li>
@@ -333,6 +337,30 @@ code > span.er {color: red; font-weight: bold}
 </ul>
 </nav>
 <main>
+<h1 id="parsing-api">Parsing API</h1>
+<p>The <code>gumbo</code> module provides 2 functions:</p>
+<h3 id="parse">parse</h3>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
+<p><strong>Parameters:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>html</code>: A <em>string</em> of UTF-8 encoded HTML.</li>
+<li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
+<li><code>ctx</code>: A <em>string</em> containing the name of an element to use as context for parsing a [HTML fragment][] (<em>optional</em>). This is for <em>fragment</em> parsing only – leave as <code>nil</code> to parse HTML <em>documents</em>.</li>
+<li><code>ctxns</code>: The namespace to use for the <code>ctx</code> parameter; either <code>&quot;html&quot;</code>, <code>&quot;svg&quot;</code> or <code>&quot;math&quot;</code> (<em>optional</em>; defaults to <code>&quot;html&quot;</code>).</li>
+</ol>
+<p><strong>Returns:</strong></p>
+<p>Either a <a href="#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
+<h3 id="parsefile">parseFile</h3>
+<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
+<p><strong>Parameters:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>pathOrFile</code>: Either a [file handle] or filename <em>string</em> that refers to a file containing UTF-8 encoded HTML.</li>
+<li><code>tabStop</code>: As <a href="#parse">above</a>.</li>
+<li><code>ctx</code>: As <a href="#parse">above</a>.</li>
+<li><code>ctxns</code>: As <a href="#parse">above</a>.</li>
+</ol>
+<p><strong>Returns:</strong></p>
+<p>As <a href="#parse">above</a>.</p>
 <h1 id="dom-api">DOM API</h1>
 <p>The lua-gumbo DOM API mostly follows the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification, with the following (intentional) exceptions:</p>
 <ul>
@@ -341,7 +369,6 @@ code > span.er {color: red; font-weight: bold}
 <li><code>readonly</code> is not fully enforced.</li>
 </ul>
 <p>The following sections list the supported properties and methods, grouped by the DOM interface in which they are specified.</p>
-<p><strong>Note:</strong> When referring to external DOM documentation, don’t forget to translate JavaScript examples to use Lua <code>object:method()</code> call syntax.</p>
 <h2 id="nodes">Nodes</h2>
 <p>There are 6 types of <code>Node</code> that may appear directly in the HTML DOM tree. These are <a href="#element"><code>Element</code></a>, <a href="#text"><code>Text</code></a>, <a href="#comment"><code>Comment</code></a>, <a href="#document"><code>Document</code></a>, <a href="#documenttype"><code>DocumentType</code></a> and <a href="#documentfragment"><code>DocumentFragment</code></a>. The <a href="#node"><code>Node</code></a> type itself is just an <a href="#node-interfaces">interface</a>, which is <em>implemented</em> by all 6 of the aforementioned types.</p>
 <h3 id="element"><code>Element</code></h3>

@@ -312,14 +312,10 @@ code > span.er {color: red; font-weight: bold}
 <li><a href="#installation">Installation</a><ul>
 <li><a href="#using-luarocks">Using LuaRocks</a></li>
 <li><a href="#using-gnu-make">Using GNU Make</a></li>
-<li><a href="#persistent-build-configuration">Persistent Build Configuration</a></li>
 </ul></li>
 <li><a href="#usage">Usage</a><ul>
-<li><a href="#parse">parse</a></li>
-<li><a href="#parsefile">parseFile</a></li>
-</ul></li>
 <li><a href="#example">Example</a></li>
-<li><a href="#dom-api">DOM API</a></li>
+</ul></li>
 <li><a href="#testing">Testing</a></li>
 </ul>
 </nav>
@@ -356,33 +352,11 @@ make check LUA_PC=luajit
 <pre><code>make LUA_CFLAGS=-I/usr/include/lua5.2
 make check LUA=/usr/bin/lua5.2
 make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code></pre>
-<h3 id="persistent-build-configuration">Persistent Build Configuration</h3>
 <p>For convenience, variable overrides can be stored persistently in a file named <code>local.mk</code>. This may be useful when building and testing against the same configuration multiple times.</p>
 <h2 id="usage">Usage</h2>
-<p>The <code>gumbo</code> module provides 2 functions:</p>
-<h3 id="parse">parse</h3>
-<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
-<p><strong>Parameters:</strong></p>
-<ol style="list-style-type: decimal">
-<li><code>html</code>: A <em>string</em> of UTF-8 encoded HTML.</li>
-<li><code>tabStop</code>: The <em>number</em> of columns to count for tab characters when computing source positions (<em>optional</em>; defaults to <code>8</code>).</li>
-<li><code>ctx</code>: A <em>string</em> containing the name of an element to use as context for parsing a <a href="https://html.spec.whatwg.org/multipage/syntax.html#parsing-html-fragments">HTML fragment</a> (<em>optional</em>). This is for <em>fragment</em> parsing only – leave as <code>nil</code> to parse HTML <em>documents</em>.</li>
-<li><code>ctxns</code>: The namespace to use for the <code>ctx</code> parameter; either <code>&quot;html&quot;</code>, <code>&quot;svg&quot;</code> or <code>&quot;math&quot;</code> (<em>optional</em>; defaults to <code>&quot;html&quot;</code>).</li>
-</ol>
-<p><strong>Returns:</strong></p>
-<p>Either a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node on success, or <code>nil</code> and an error message on failure.</p>
-<h3 id="parsefile">parseFile</h3>
-<pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parseFile<span class="ot">(</span>pathOrFile<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
-<p><strong>Parameters:</strong></p>
-<ol style="list-style-type: decimal">
-<li><code>pathOrFile</code>: Either a <a href="http://www.lua.org/manual/5.2/manual.html#6.8">file handle</a> or filename <em>string</em> that refers to a file containing UTF-8 encoded HTML.</li>
-<li><code>tabStop</code>: As <a href="#parse">above</a>.</li>
-<li><code>ctx</code>: As <a href="#parse">above</a>.</li>
-<li><code>ctxns</code>: As <a href="#parse">above</a>.</li>
-</ol>
-<p><strong>Returns:</strong></p>
-<p>As <a href="#parse">above</a>.</p>
-<h2 id="example">Example</h2>
+<p>The <code>gumbo</code> module provides a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#parse"><code>parse</code></a> function and a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#parsefile"><code>parseFile</code></a> function, which both return a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly follows the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification.</p>
+<p>For full API documentation, see: <a href="https://craigbarnes.github.io/lua-gumbo/api.html" class="uri">https://craigbarnes.github.io/lua-gumbo/api.html</a>.</p>
+<h3 id="example">Example</h3>
 <p>The following is a simple demonstration of how to find an element by ID and print the contents of it’s first child text node.</p>
 <pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> gumbo <span class="ot">=</span> <span class="fu">require</span> <span class="st">&quot;gumbo&quot;</span>
 <span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span><span class="st">&#39;&lt;div id=&quot;foo&quot;&gt;Hello World&lt;/div&gt;&#39;</span><span class="ot">)</span>
@@ -395,15 +369,12 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/find_links.lua">find_links.lua</a></li>
 <li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/remove_by_id.lua">remove_by_id.lua</a></li>
 </ul>
-<h2 id="dom-api">DOM API</h2>
-<p>The <a href="#parse"><code>parse</code></a> and <a href="#parsefile"><code>parseFile</code></a> functions both return a <a href="https://craigbarnes.github.io/lua-gumbo/api.html#document"><code>Document</code></a> node, containing a tree of <a href="https://dom.spec.whatwg.org/#concept-tree-descendant">descendant</a> nodes. The structure and API of this tree mostly follows the <a href="https://dom.spec.whatwg.org/">DOM</a> Level 4 Core specification and is documented at <a href="https://craigbarnes.github.io/lua-gumbo/api.html" class="uri">https://craigbarnes.github.io/lua-gumbo/api.html</a>.</p>
 <h2 id="testing">Testing</h2>
 <p><a href="https://travis-ci.org/craigbarnes/lua-gumbo"><img src="https://travis-ci.org/craigbarnes/lua-gumbo.png?branch=master" alt="Build Status" /></a> <a href="https://coveralls.io/github/craigbarnes/lua-gumbo?branch=master"><img src="https://coveralls.io/repos/craigbarnes/lua-gumbo/badge.svg?branch=master&amp;service=github" alt="Coverage Status" /></a></p>
 <ul>
 <li><code>make check</code>: Runs all unit tests.</li>
-<li><code>make check-html5lib</code>: Runs just the html5lib <a href="https://github.com/html5lib/html5lib-tests/tree/master/tree-construction">tree-construction tests</a>.</li>
+<li><code>make check-html5lib</code>: Runs the html5lib <a href="https://github.com/html5lib/html5lib-tests/tree/master/tree-construction">tree-construction tests</a> and prints a short summary of results.</li>
 <li><code>make check-install</code>: Runs <code>make check</code> within a temporary, isolated installation, to ensure all modules are installed correctly.</li>
-<li><code>make coverage.txt</code>: Generates a test coverage report with <a href="https://keplerproject.github.io/luacov/">luacov</a>.</li>
 </ul>
 </main>
 </body>
