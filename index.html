@@ -321,7 +321,7 @@ code > span.er {color: red; font-weight: bold}
 </nav>
 <main>
 <h2 id="synopsis">Synopsis</h2>
-<p><a href="http://www.lua.org/">Lua</a> <a href="http://www.lua.org/manual/5.2/manual.html#4">C API</a> and <a href="http://luajit.org/">LuaJIT</a> <a href="http://luajit.org/ext_ffi.html">FFI</a> bindings for the <a href="https://github.com/google/gumbo-parser">Gumbo</a> <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/introduction.html#is-this-html5?">HTML5</a> parsing library, including a small set of core <a href="https://dom.spec.whatwg.org/">DOM</a> APIs implemented in pure Lua.</p>
+<p><a href="http://www.lua.org/">Lua</a> <a href="http://www.lua.org/manual/5.2/manual.html#4">C API</a> and <a href="http://luajit.org/">LuaJIT</a> <a href="http://luajit.org/ext_ffi.html">FFI</a> bindings for the <a href="https://github.com/google/gumbo-parser">Gumbo</a> <a href="https://html.spec.whatwg.org/multipage/introduction.html#is-this-html5?">HTML5</a> parsing library, including a small set of core <a href="https://dom.spec.whatwg.org/">DOM</a> APIs implemented in pure Lua.</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
 <li>C99 compiler</li>
@@ -331,7 +331,7 @@ code > span.er {color: red; font-weight: bold}
 </ul>
 <h2 id="installation">Installation</h2>
 <h3 id="using-luarocks">Using LuaRocks</h3>
-<p>To install the latest lua-gumbo release via <a href="http://luarocks.org/">LuaRocks</a>, first ensure the requirements listed above are installed, then use the command:</p>
+<p>To install the latest lua-gumbo release via <a href="https://luarocks.org/modules/craigb/gumbo">LuaRocks</a>, first ensure the requirements listed above are installed, then use the command:</p>
 <pre><code>luarocks install gumbo</code></pre>
 <h3 id="using-gnu-make">Using GNU Make</h3>
 <p>First, download and extract the latest release tarball:</p>
@@ -363,7 +363,7 @@ make install LUA_LMOD_DIR=/usr/share/lua/5.2 LUA_CMOD_DIR=/usr/lib/lua/5.2</code
 <span class="kw">local</span> foo <span class="ot">=</span> document:getElementById<span class="ot">(</span><span class="st">&quot;foo&quot;</span><span class="ot">)</span>
 <span class="kw">local</span> text <span class="ot">=</span> foo<span class="ot">.</span>childNodes<span class="ot">[</span><span class="dv">1</span><span class="ot">].</span>data
 <span class="fu">print</span><span class="ot">(</span>text<span class="ot">)</span> <span class="co">--&gt; Hello World</span></code></pre>
-<p><strong>Note:</strong> this example omits error handling for the sake of simplicity. Production code should wrap each step with <code>assert()</code> or some other, application-specific error handling.</p>
+<p><strong>Note:</strong> this example omits error handling for the sake of simplicity. Production code should wrap each step with <a href="http://www.lua.org/manual/5.3/manual.html#pdf-assert"><code>assert()</code></a> or some other, application-specific error handling.</p>
 <p>See also:</p>
 <ul>
 <li><a href="https://github.com/craigbarnes/lua-gumbo/blob/master/examples/find_links.lua">find_links.lua</a></li>

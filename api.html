@@ -307,7 +307,7 @@ code > span.er {color: red; font-weight: bold}
 <hr style='margin-bottom: 35px'/>
 <nav id="toc">
 <ul>
-<li><a href="#parsing-api">Parsing API</a><ul>
+<li><a href="#parser-api">Parser API</a><ul>
 <li><a href="#parse">parse</a></li>
 <li><a href="#parsefile">parseFile</a></li>
 </ul></li>
@@ -337,7 +337,7 @@ code > span.er {color: red; font-weight: bold}
 </ul>
 </nav>
 <main>
-<h1 id="parsing-api">Parsing API</h1>
+<h1 id="parser-api">Parser API</h1>
 <p>The <code>gumbo</code> module provides 2 functions:</p>
 <h3 id="parse">parse</h3>
 <pre class="sourceCode lua"><code class="sourceCode lua"><span class="kw">local</span> document <span class="ot">=</span> gumbo<span class="ot">.</span>parse<span class="ot">(</span>html<span class="ot">,</span> tabStop<span class="ot">,</span> ctx<span class="ot">,</span> ctxns<span class="ot">)</span></code></pre>
@@ -751,29 +751,44 @@ code > span.er {color: red; font-weight: bold}
 <h2 id="attribute-objects">Attribute Objects</h2>
 <h3 id="attributelist"><code>AttributeList</code></h3>
 <p>An <code>AttributeList</code> is a list containing zero or more <a href="#attribute"><code>Attribute</code></a> objects. Every <a href="#element"><code>Element</code></a> node has an associated <code>AttributeList</code>, which can be accessed via the <code>Element.attributes</code> property.</p>
+<p><em>Note:</em> <code>AttributeList</code> is equivalent to what the DOM specification calls <code>NamedNodeMap</code>.</p>
 <p><strong>Properties:</strong></p>
 <p><em>TODO</em></p>
 <h3 id="attribute"><code>Attribute</code></h3>
 <p>The <code>Attribute</code> type represents a single attribute of an <a href="#element"><code>Element</code></a>.</p>
+<p><em>Note:</em> <code>Attribute</code> is equivalent to what the DOM specification calls <code>Attr</code>.</p>
 <p><strong>Properties:</strong></p>
 <dl>
 <dt><code>name</code></dt>
-<dd>The attribute’s name.
+<dd>The name of the attribute.
 </dd>
 <dt><code>value</code></dt>
-<dd>The attribute’s value.
+<dd>The value of the attribute.
 </dd>
 <dt><code>escapedValue</code></dt>
-<dd><p>The attribute’s value, escaped according to the <a href="http://www.w3.org/TR/html5/syntax.html#escapingString">rules</a> in the <a href="http://www.w3.org/TR/html5/syntax.html#html-fragment-serialization-algorithm">HTML fragment serialization algorithm</a>.</p>
+<dd><p>The value of the attribute, escaped according to the <a href="http://www.w3.org/TR/html5/syntax.html#escapingString">rules</a> in the <a href="http://www.w3.org/TR/html5/syntax.html#html-fragment-serialization-algorithm">HTML fragment serialization algorithm</a>.</p>
 <p>Ampersand (<code>&amp;</code>) characters in <code>value</code> become <code>&amp;amp;</code>, double quote (<code>&quot;</code>) characters become <code>&amp;quot;</code> and non-breaking spaces (<code>U+00A0</code>) become <code>&amp;nbsp;</code>.</p>
 <p><em>This property is an extension; not a part of any specification.</em></p>
 </dd>
 </dl>
 <h2 id="node-containers">Node Containers</h2>
 <h3 id="nodelist"><code>NodeList</code></h3>
-<p><em>TODO</em></p>
+<p>A list containing zero or more <a href="#nodes">nodes</a>, as typically returned by the <code>Node.childNodes</code> property.</p>
+<p><strong>Properties:</strong></p>
+<dl>
+<dt><code>length</code></dt>
+<dd>The <em>number</em> of nodes contained by the list.
+</dd>
+</dl>
 <h3 id="elementlist"><code>ElementList</code></h3>
-<p><em>TODO</em></p>
+<p>A list containing zero or more <a href="#element"><code>Element</code></a> nodes, as typically returned by various <a href="#node"><code>Node</code></a> and <a href="#parentnode"><code>ParentNode</code></a> methods.</p>
+<p><em>Note:</em> <code>ElementList</code> is equivalent to what the DOM specification calls <code>HTMLCollection</code>.</p>
+<p><strong>Properties:</strong></p>
+<dl>
+<dt><code>length</code></dt>
+<dd>The <em>number</em> of <code>Element</code> nodes contained by the list.
+</dd>
+</dl>
 </main>
 </body>
 
